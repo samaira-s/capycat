@@ -1,19 +1,162 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .font-impact {
-    font-family: Impact, "Arial Black", "Trebuchet MS", -apple-system, sans-serif;
+:root {
+  --bg-paper: #F4EFE6;
+  --ink: #1A1A1A;
+  --accent-tomato: #FF4D2E;
+  --accent-yellow: #FFD84D;
+  --accent-lilac: #C9B6FF;
+  --accent-mint: #A7F3D0;
+  --accent-blue: #BAE6FD;
+}
+
+body {
+  background-color: var(--bg-paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  background-image: radial-gradient(rgba(26, 26, 26, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.font-heading {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive;
+}
+
+/* Polaroid Photo Frame */
+.polaroid-frame {
+  background: #ffffff;
+  padding: 12px 12px 36px 12px;
+  box-shadow: 4px 6px 0px rgba(26, 26, 26, 0.9), 0 10px 25px rgba(0,0,0,0.1);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.01);
+  box-shadow: 6px 8px 0px rgba(26, 26, 26, 0.9), 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* Washi tape graphic */
+.washi-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1deg);
+  width: 110px;
+  height: 26px;
+  background: rgba(255, 216, 77, 0.85);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+  border-left: 2px dashed rgba(0,0,0,0.15);
+  border-right: 2px dashed rgba(0,0,0,0.15);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Torn paper sticker chips */
+.zine-chip {
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0px var(--ink);
+  transition: all 0.15s ease;
+}
+
+.zine-chip:hover {
+  transform: translateY(-2px) rotate(1deg);
+  box-shadow: 3px 4px 0px var(--ink);
+}
+
+.zine-chip-selected {
+  background-color: var(--accent-tomato) !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) rotate(-1deg);
+  box-shadow: 4px 4px 0px var(--ink) !important;
+}
+
+/* Neo-brutalist buttons */
+.neo-btn {
+  background-color: var(--accent-tomato);
+  color: #ffffff;
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0px var(--ink);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.neo-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--ink);
+}
+
+.neo-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+.neo-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Sticky note caption cards */
+.sticky-note {
+  border: 2px solid var(--ink);
+  box-shadow: 3px 4px 0px var(--ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sticky-note:hover {
+  transform: translateY(-2px) rotate(0.5deg);
+  box-shadow: 5px 6px 0px var(--ink);
+}
+
+/* Stamp style button */
+.stamp-btn {
+  border: 1.5px dashed var(--ink);
+  background: rgba(255,255,255,0.7);
+  transition: all 0.1s ease;
+}
+.stamp-btn:hover {
+  background: var(--accent-yellow);
+  transform: scale(1.05);
+}
+
+/* Slap animation for captions */
+@keyframes slapIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-4deg) translateY(20px);
   }
-  .meme-text-shadow {
-    text-shadow: 
-      -2px -2px 0 #000,
-       2px -2px 0 #000,
-      -2px  2px 0 #000,
-       2px  2px 0 #000,
-       0px -2px 0 #000,
-       0px  2px 0 #000,
-      -2px  0px 0 #000,
-       2px  0px 0 #000,
-       0 4px 10px rgba(0, 0, 0, 0.7);
+  60% {
+    opacity: 1;
+    transform: scale(1.03) rotate(1deg) translateY(-4px);
   }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+.animate-slap {
+  animation: slapIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slap {
+    animation: none !important;
+  }
+  .polaroid-frame, .zine-chip, .sticky-note, .neo-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.font-impact {
+  font-family: Impact, "Arial Black", sans-serif;
+}
+.meme-text-shadow {
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 3px 6px rgba(0,0,0,0.8);
 }

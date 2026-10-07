@@ -45,7 +45,6 @@ export const CaptionCard: React.FC<CaptionCardProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -61,7 +60,7 @@ export const CaptionCard: React.FC<CaptionCardProps> = ({
           topText: caption.top_text,
           bottomText: caption.bottom_text,
         },
-        `meme-option-${index + 1}-${Date.now()}.png`
+        `zine-meme-${index + 1}-${Date.now()}.png`
       );
     } catch (err) {
       console.error(err);
@@ -71,61 +70,73 @@ export const CaptionCard: React.FC<CaptionCardProps> = ({
     }
   };
 
+  // Sticky note scrap colors and rotations
+  const cardColors = [
+    'bg-[#FFF9C4]', // sticky yellow
+    'bg-[#E1BEE7]', // sticky lilac
+    'bg-[#C8E6C9]', // mint paper
+    'bg-[#B3E5FC]', // light blue
+    'bg-[#FFE0B2]', // peach
+  ];
+  const rotations = ['rotate-[0.5deg]', 'rotate-[-1deg]', 'rotate-[1.2deg]', 'rotate-[-0.8deg]', 'rotate-[0.3deg]'];
+
+  const bgCol = cardColors[index % cardColors.length];
+  const rot = rotations[index % rotations.length];
+
   return (
     <div
       onClick={memeMode ? onSelectActiveMeme : undefined}
-      className={`relative rounded-2xl border transition-all p-4 sm:p-5 flex flex-col justify-between ${
+      style={{ animationDelay: `${index * 80}ms` }}
+      className={`relative sticky-note rounded-xl p-4 sm:p-5 flex flex-col justify-between animate-slap ${bgCol} ${
         isActiveMeme && memeMode
-          ? 'border-amber-400 bg-zinc-900/95 shadow-lg shadow-amber-500/10 ring-1 ring-amber-400/50'
-          : 'border-zinc-800 bg-zinc-900/80 hover:border-zinc-700/80 hover:bg-zinc-900'
+          ? 'ring-4 ring-[#FF4D2E] scale-[1.01]'
+          : ''
       } ${memeMode ? 'cursor-pointer' : ''}`}
     >
-      {/* Regeneration overlay loader */}
+      {/* Regeneration overlay */}
       {isRegenerating && (
-        <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-xs rounded-2xl z-10 flex flex-col items-center justify-center p-4">
-          <RefreshCw className="w-6 h-6 text-amber-400 animate-spin mb-2" />
-          <p className="text-xs font-semibold text-amber-300">
+        <div className="absolute inset-0 bg-[#F4EFE6]/90 rounded-xl z-10 flex flex-col items-center justify-center p-4">
+          <RefreshCw className="w-6 h-6 text-[#FF4D2E] animate-spin mb-2" />
+          <p className="font-heading font-bold text-xs text-[#1A1A1A]">
             Crafting fresh alternative...
           </p>
         </div>
       )}
 
-      {/* Top Bar of Card */}
+      {/* Top Header of Note */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="w-6 h-6 rounded-lg bg-zinc-800 flex items-center justify-center text-xs font-bold text-amber-400 border border-zinc-700/60">
-            {index + 1}
+          <span className="w-6 h-6 bg-[#1A1A1A] text-white rounded font-heading font-black text-xs flex items-center justify-center shadow-[1px_1px_0_rgba(0,0,0,0.5)]">
+            #{index + 1}
           </span>
-          <span className="text-[11px] text-zinc-500 font-mono">
+          <span className="text-[11px] font-mono font-bold text-[#1A1A1A]/60">
             {wordCount} words
           </span>
           {isActiveMeme && memeMode && (
-            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
-              Active Preview
+            <span className="text-[10px] uppercase font-bold px-2 py-0.2 bg-[#FF4D2E] text-white rounded border border-[#1A1A1A] shadow-[1px_1px_0_#1A1A1A]">
+              Active Canvas
             </span>
           )}
         </div>
 
-        {/* Action buttons: Copy & Regenerate */}
+        {/* Action Stamp Buttons */}
         <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
             onClick={handleCopy}
-            className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border transition font-medium cursor-pointer ${
-              copied
-                ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
-                : 'bg-zinc-800/80 hover:bg-zinc-800 border-zinc-700/60 text-zinc-300 hover:text-white'
+            className={`stamp-btn flex items-center gap-1 text-xs px-2.5 py-1 rounded font-bold text-[#1A1A1A] cursor-pointer ${
+              copied ? 'bg-[#A7F3D0] border-solid' : ''
             }`}
             title="Copy to clipboard"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Copied</span>
+                <Check className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Copied!</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-zinc-400" />
+                <Copy className="w-3.5 h-3.5" />
                 <span>Copy</span>
               </>
             )}
@@ -135,60 +146,56 @@ export const CaptionCard: React.FC<CaptionCardProps> = ({
             type="button"
             onClick={onRegenerate}
             disabled={isRegenerating}
-            className="flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-amber-300 transition font-medium disabled:opacity-50 cursor-pointer"
-            title="Regenerate this specific caption"
+            className="stamp-btn flex items-center gap-1 text-xs px-2.5 py-1 rounded font-bold text-[#1A1A1A] cursor-pointer disabled:opacity-50"
+            title="Regenerate this caption"
           >
-            <RefreshCw
-              className={`w-3.5 h-3.5 ${
-                isRegenerating ? 'animate-spin text-amber-400' : 'text-zinc-400'
-              }`}
-            />
-            <span className="hidden sm:inline">Regenerate</span>
+            <RefreshCw className={`w-3.5 h-3.5 ${isRegenerating ? 'animate-spin text-[#FF4D2E]' : ''}`} />
+            <span className="hidden sm:inline">Reroll</span>
           </button>
         </div>
       </div>
 
-      {/* Main Caption Content */}
+      {/* Main Caption Text in Caveat handwriting or DM Sans */}
       <div className="space-y-3 my-1">
-        <p className="text-zinc-100 font-normal text-sm sm:text-base leading-relaxed">
+        <p className="font-handwriting text-2xl sm:text-3xl font-bold text-[#1A1A1A] leading-tight">
           &ldquo;{caption.text}&rdquo;
         </p>
 
-        {/* Meme Breakdown (when Meme Mode is toggled or for quick inspection) */}
+        {/* Meme Breakdown */}
         {memeMode && (
-          <div className="mt-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 space-y-1.5">
-            <div className="flex items-center justify-between text-[11px] font-bold text-amber-400 mb-1">
+          <div className="mt-3 p-3 rounded-lg bg-white/95 border-2 border-[#1A1A1A] shadow-[2px_2px_0_#1A1A1A] space-y-1.5">
+            <div className="flex items-center justify-between text-[11px] font-heading font-extrabold text-[#FF4D2E]">
               <span className="flex items-center gap-1">
                 <Laugh className="w-3 h-3" />
-                MEME BREAKDOWN
+                ZINE MEME TEXT
               </span>
               <button
                 type="button"
                 onClick={handleDownloadThisMeme}
                 disabled={downloading}
-                className="text-zinc-400 hover:text-amber-300 flex items-center gap-1 transition cursor-pointer"
+                className="text-[#1A1A1A] hover:text-[#FF4D2E] flex items-center gap-1 font-bold transition cursor-pointer"
               >
                 <Download className="w-3 h-3" />
                 <span>PNG</span>
               </button>
             </div>
-            <div className="text-xs font-mono">
-              <span className="text-zinc-500 font-semibold">TOP: </span>
-              <span className="text-zinc-200 font-bold uppercase">{caption.top_text || '(none)'}</span>
+            <div className="text-xs font-mono bg-[#F4EFE6] p-1.5 rounded border border-[#1A1A1A]/30">
+              <span className="text-[#FF4D2E] font-bold">TOP: </span>
+              <span className="text-[#1A1A1A] font-bold uppercase">{caption.top_text || '(none)'}</span>
             </div>
-            <div className="text-xs font-mono">
-              <span className="text-zinc-500 font-semibold">BOTTOM: </span>
-              <span className="text-zinc-200 font-bold uppercase">{caption.bottom_text || '(none)'}</span>
+            <div className="text-xs font-mono bg-[#F4EFE6] p-1.5 rounded border border-[#1A1A1A]/30">
+              <span className="text-[#FF4D2E] font-bold">BOTTOM: </span>
+              <span className="text-[#1A1A1A] font-bold uppercase">{caption.bottom_text || '(none)'}</span>
             </div>
           </div>
         )}
       </div>
 
-      {/* Footer Info / Selection Hint */}
+      {/* Footer hint */}
       {memeMode && (
-        <div className="mt-3 pt-2 border-t border-zinc-800/60 flex items-center justify-between text-[11px] text-zinc-500">
-          <span>{isActiveMeme ? 'Showing on main canvas' : 'Click to display on meme canvas'}</span>
-          <Sparkles className={`w-3 h-3 ${isActiveMeme ? 'text-amber-400' : 'text-zinc-600'}`} />
+        <div className="mt-3 pt-2 border-t border-[#1A1A1A]/20 flex items-center justify-between text-[11px] font-bold text-[#1A1A1A]/70">
+          <span>{isActiveMeme ? '★ On active meme preview' : 'Click to preview on meme canvas'}</span>
+          <Sparkles className="w-3 h-3 text-[#FF4D2E]" />
         </div>
       )}
     </div>

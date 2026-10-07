@@ -23,7 +23,6 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
   const [localTop, setLocalTop] = useState(topText);
   const [localBottom, setLocalBottom] = useState(bottomText);
 
-  // Sync if props change
   React.useEffect(() => {
     setLocalTop(topText);
     setLocalBottom(bottomText);
@@ -38,7 +37,7 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
           topText: localTop,
           bottomText: localBottom,
         },
-        `captioncraft-${Date.now()}.png`
+        `captioncraft-zine-meme-${Date.now()}.png`
       );
       setDownloadSuccess(true);
       setTimeout(() => setDownloadSuccess(false), 2500);
@@ -58,15 +57,15 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 overflow-hidden shadow-xl p-4 sm:p-5 space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="polaroid-frame bg-white p-4 sm:p-5 space-y-4">
+      <div className="flex items-center justify-between border-b-2 border-[#1A1A1A]/10 pb-3">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            Meme Generator
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#FFD84D] border-1.5 border-[#1A1A1A] shadow-[2px_2px_0_#1A1A1A] text-xs font-heading font-extrabold uppercase">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF4D2E]" />
+            Active Meme Studio
           </span>
           {captionTitle && (
-            <span className="text-xs text-zinc-400 truncate max-w-[200px]">
+            <span className="text-xs font-bold text-[#1A1A1A]/70">
               {captionTitle}
             </span>
           )}
@@ -76,9 +75,9 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
           <button
             type="button"
             onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 px-2.5 py-1 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-950 transition cursor-pointer"
+            className="stamp-btn flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded cursor-pointer"
           >
-            <Edit3 className="w-3.5 h-3.5" />
+            <Edit3 className="w-3.5 h-3.5 text-[#FF4D2E]" />
             <span>{isEditing ? 'Close Edit' : 'Edit Text'}</span>
           </button>
 
@@ -86,7 +85,7 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
             type="button"
             onClick={handleDownload}
             disabled={isDownloading}
-            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 transition shadow-md shadow-amber-500/20 disabled:opacity-50 cursor-pointer"
+            className="neo-btn flex items-center gap-1.5 text-xs font-heading font-extrabold px-3.5 py-1.5 rounded cursor-pointer"
           >
             {downloadSuccess ? (
               <>
@@ -105,36 +104,32 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
 
       {/* Optional inline text editing inputs */}
       {isEditing && (
-        <div className="p-3 bg-zinc-950/70 border border-zinc-800 rounded-xl space-y-2.5 animate-fadeIn">
+        <div className="p-3 bg-[#F4EFE6] border-2 border-[#1A1A1A] rounded-xl space-y-2.5 shadow-[3px_3px_0_#1A1A1A] animate-fadeIn">
           <div>
-            <label className="text-[11px] font-semibold text-zinc-400 block mb-1">
-              Top Text
-            </label>
+            <label className="text-xs font-heading font-bold block mb-1">Top Text</label>
             <input
               type="text"
               value={localTop}
               onChange={(e) => setLocalTop(e.target.value)}
               placeholder="TOP TEXT..."
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+              className="w-full bg-white border-2 border-[#1A1A1A] rounded px-3 py-1.5 text-sm font-bold uppercase placeholder-[#1A1A1A]/30 focus:outline-none focus:ring-2 focus:ring-[#FF4D2E]"
             />
           </div>
           <div>
-            <label className="text-[11px] font-semibold text-zinc-400 block mb-1">
-              Bottom Text
-            </label>
+            <label className="text-xs font-heading font-bold block mb-1">Bottom Text</label>
             <input
               type="text"
               value={localBottom}
               onChange={(e) => setLocalBottom(e.target.value)}
               placeholder="BOTTOM TEXT..."
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+              className="w-full bg-white border-2 border-[#1A1A1A] rounded px-3 py-1.5 text-sm font-bold uppercase placeholder-[#1A1A1A]/30 focus:outline-none focus:ring-2 focus:ring-[#FF4D2E]"
             />
           </div>
           <div className="flex justify-end pt-1">
             <button
               type="button"
               onClick={handleApplyEdit}
-              className="text-xs bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-1 rounded-lg font-medium transition cursor-pointer"
+              className="neo-btn text-xs font-bold px-3 py-1 rounded cursor-pointer"
             >
               Apply Changes
             </button>
@@ -143,10 +138,10 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
       )}
 
       {/* Live Impact Meme Display with Outline */}
-      <div className="relative rounded-xl overflow-hidden border border-zinc-800 bg-black flex items-center justify-center max-h-[460px] shadow-2xl">
+      <div className="relative rounded-lg overflow-hidden border-3 border-[#1A1A1A] bg-black flex items-center justify-center max-h-[460px] shadow-[4px_4px_0_#1A1A1A]">
         <img
           src={image}
-          alt="Meme background"
+          alt="Meme canvas background"
           className="w-full max-h-[460px] object-contain block mx-auto select-none"
         />
 
@@ -169,14 +164,14 @@ export const MemePreview: React.FC<MemePreviewProps> = ({
         )}
       </div>
 
-      <div className="flex items-center justify-between text-xs text-zinc-500 px-1">
-        <span>Rendered in classic bold Impact typography with high-contrast outline</span>
+      <div className="flex items-center justify-between text-xs text-[#1A1A1A]/70 px-1 font-bold">
+        <span>Rendered with classic bold Impact text and heavy outline</span>
         <button
           type="button"
           onClick={handleDownload}
-          className="text-amber-400 hover:underline cursor-pointer font-medium"
+          className="text-[#FF4D2E] underline cursor-pointer"
         >
-          Direct Download &rarr;
+          Export PNG &rarr;
         </button>
       </div>
     </div>

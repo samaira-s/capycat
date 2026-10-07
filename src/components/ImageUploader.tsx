@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Upload, Image as ImageIcon, X, RefreshCw, Wand2 } from 'lucide-react';
+import { Upload, ImageIcon, X, RefreshCw, Sparkles } from 'lucide-react';
 import { SAMPLE_IMAGES, SampleImage } from '../data/sampleImages';
 
 interface ImageUploaderProps {
@@ -63,21 +63,21 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div className="w-full space-y-3">
-      <div className="flex items-center justify-between text-sm">
-        <span className="font-semibold text-zinc-200 flex items-center gap-2">
-          <ImageIcon className="w-4 h-4 text-amber-400" />
-          Photo Input
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="font-heading font-bold text-base flex items-center gap-2">
+          <ImageIcon className="w-4 h-4 text-[#FF4D2E]" />
+          Photo Subject
         </span>
         {image && (
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled}
-            className="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 cursor-pointer transition"
+            className="text-xs font-bold px-2 py-1 bg-[#FFD84D] border-1.5 border-[#1A1A1A] shadow-[2px_2px_0_#1A1A1A] hover:translate-x-[-1px] hover:translate-y-[-1px] transition cursor-pointer flex items-center gap-1"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Change photo
+            <RefreshCw className="w-3 h-3" />
+            Swap Photo
           </button>
         )}
       </div>
@@ -101,77 +101,89 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => !disabled && fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-7 text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[220px] ${
+          className={`border-3 border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[220px] bg-white/60 ${
             isDragging
-              ? 'border-amber-400 bg-amber-500/10 scale-[0.99]'
-              : 'border-zinc-800 hover:border-zinc-700 bg-zinc-900/50 hover:bg-zinc-900/80'
+              ? 'border-[#FF4D2E] bg-[#FF4D2E]/10 scale-[0.99]'
+              : 'border-[#1A1A1A]/40 hover:border-[#1A1A1A] hover:bg-white'
           }`}
         >
-          <div className="w-14 h-14 rounded-2xl bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center mb-3 group-hover:scale-105 transition">
-            <Upload className="w-6 h-6 text-amber-400" />
+          <div className="w-14 h-14 rounded-xl bg-[#FFD84D] border-2 border-[#1A1A1A] shadow-[3px_3px_0_#1A1A1A] flex items-center justify-center mb-3">
+            <Upload className="w-6 h-6 text-[#1A1A1A]" />
           </div>
-          <p className="text-sm font-medium text-zinc-200">
-            Drag and drop your photo here, or{' '}
-            <span className="text-amber-400 underline decoration-amber-400/50 underline-offset-2">
-              browse files
-            </span>
+          <p className="font-heading font-bold text-base text-[#1A1A1A]">
+            Drop your photo here or <span className="underline decoration-2 text-[#FF4D2E]">browse</span>
           </p>
-          <p className="text-xs text-zinc-500 mt-1">
-            Supports JPG, PNG, WEBP, GIF (up to 20MB)
+          <p className="text-xs text-[#1A1A1A]/70 mt-1 font-medium">
+            JPG, PNG, WEBP (Scrapbook ready)
           </p>
         </div>
       ) : (
-        <div className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/60 shadow-lg group">
-          <div className="w-full max-h-[360px] flex items-center justify-center bg-black/40 overflow-hidden">
-            <img
-              src={image}
-              alt="Uploaded preview"
-              className="max-h-[360px] w-auto max-w-full object-contain mx-auto"
-            />
-          </div>
-
-          <div className="absolute top-3 right-3 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={onClearImage}
-              disabled={disabled}
-              className="p-1.5 rounded-lg bg-black/70 hover:bg-black text-zinc-300 hover:text-white backdrop-blur border border-white/10 transition cursor-pointer"
-              title="Remove photo"
-            >
-              <X className="w-4 h-4" />
-            </button>
+        <div className="relative pt-6 pb-2 px-2 flex justify-center">
+          {/* Polaroid Photo Frame with Washi Tape */}
+          <div className="relative polaroid-frame w-full max-w-sm">
+            <div className="washi-tape" />
+            <div className="w-full h-[280px] bg-[#1A1A1A]/5 border border-[#1A1A1A]/20 overflow-hidden flex items-center justify-center">
+              <img
+                src={image}
+                alt="Polaroid preview"
+                className="max-h-[280px] w-auto max-w-full object-contain"
+              />
+            </div>
+            <div className="mt-3 flex items-center justify-between px-1">
+              <span className="font-handwriting text-2xl font-bold text-[#1A1A1A] rotate-[-1deg]">
+                #CaptionCraft
+              </span>
+              <button
+                type="button"
+                onClick={onClearImage}
+                disabled={disabled}
+                className="p-1 rounded bg-[#FF4D2E] text-white border border-[#1A1A1A] shadow-[1px_1px_0_#1A1A1A] text-xs font-bold hover:bg-[#e03b1d] cursor-pointer"
+                title="Remove photo"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Quick sample photos selector */}
-      <div className="pt-1">
-        <div className="flex items-center gap-1.5 text-xs text-zinc-400 mb-2">
-          <Wand2 className="w-3.5 h-3.5 text-amber-400" />
-          <span>Don't have a photo handy? Try a test subject:</span>
+      {/* Quick sample photos */}
+      <div className="pt-2">
+        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#1A1A1A]/70 mb-2">
+          <Sparkles className="w-3.5 h-3.5 text-[#FF4D2E]" />
+          <span>Scrapbook Sample Photos:</span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {SAMPLE_IMAGES.map((sample) => (
-            <button
-              key={sample.id}
-              type="button"
-              onClick={() => handleSelectSample(sample)}
-              disabled={disabled}
-              className="flex items-center gap-2 p-2 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-amber-500/40 hover:bg-zinc-800/60 text-left transition text-xs group cursor-pointer"
-            >
-              <img
-                src={sample.url}
-                alt={sample.name}
-                className="w-8 h-8 rounded-lg object-cover bg-zinc-950 border border-zinc-800 flex-shrink-0"
-              />
-              <div className="truncate">
-                <div className="font-medium text-zinc-200 group-hover:text-amber-300 truncate">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {SAMPLE_IMAGES.map((sample, idx) => {
+            const rotations = ['rotate-1', 'rotate-[-1deg]', 'rotate-[2deg]', 'rotate-[-2deg]'];
+            const colors = ['bg-[#FFD84D]', 'bg-[#C9B6FF]', 'bg-[#A7F3D0]', 'bg-[#BAE6FD]'];
+            const rot = rotations[idx % rotations.length];
+            const col = colors[idx % colors.length];
+
+            return (
+              <button
+                key={sample.id}
+                type="button"
+                onClick={() => handleSelectSample(sample)}
+                disabled={disabled}
+                className={`p-2 bg-white border-2 border-[#1A1A1A] shadow-[2px_2px_0_#1A1A1A] hover:shadow-[3px_4px_0_#1A1A1A] hover:-translate-y-0.5 text-left transition cursor-pointer flex flex-col items-center ${rot}`}
+              >
+                <div className="w-full h-16 bg-[#1A1A1A]/5 border border-[#1A1A1A]/20 rounded mb-1.5 overflow-hidden flex items-center justify-center">
+                  <img
+                    src={sample.url}
+                    alt={sample.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="font-heading font-bold text-[11px] text-[#1A1A1A] truncate w-full text-center">
                   {sample.name}
                 </div>
-                <div className="text-[10px] text-zinc-500 truncate">{sample.category}</div>
-              </div>
-            </button>
-          ))}
+                <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold border border-[#1A1A1A] ${col} mt-0.5`}>
+                  {sample.category}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

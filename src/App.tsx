@@ -160,36 +160,35 @@ export default function App() {
   const activeCaption = captions[activeMemeIndex] || captions[0];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans selection:bg-amber-500/30 selection:text-amber-200">
+    <div className="min-h-screen bg-[#F4EFE6] text-[#1A1A1A] flex flex-col font-sans selection:bg-[#FF4D2E] selection:text-white">
       <Header memeMode={memeMode} onToggleMemeMode={setMemeMode} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
         {/* Top Hero Banner */}
         <section className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          <h2 className="font-heading text-3xl sm:text-4xl font-black tracking-tight text-[#1A1A1A]">
             Give Your Photo The{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
-              Perfect Caption
+            <span className="bg-[#FFD84D] px-2 py-0.5 border-2 border-[#1A1A1A] shadow-[3px_3px_0_#1A1A1A] inline-block rotate-[-1deg]">
+              Perfect Vibe
             </span>
           </h2>
-          <p className="text-sm text-zinc-400">
-            Powered by Gemini AI. Deep visual reasoning picks up on expressions, props, and setting
-            to craft genuinely hilarious, tailored lines.
+          <p className="text-sm font-medium text-[#1A1A1A]/80">
+            Powered by Gemini AI visual reasoning. Extracts details, objects, and expressions to craft sharp, tailored zine captions.
           </p>
         </section>
 
         {/* Global Error Banner */}
         {error && (
-          <div className="rounded-2xl border border-red-500/30 bg-red-950/40 p-4 flex items-start gap-3 text-red-200">
-            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-            <div className="flex-1 text-sm">
-              <span className="font-semibold text-red-300">Notice: </span>
+          <div className="rounded-xl border-2 border-[#1A1A1A] bg-[#FF4D2E]/20 p-4 flex items-start gap-3 text-[#1A1A1A] shadow-[3px_3px_0_#1A1A1A]">
+            <AlertCircle className="w-5 h-5 text-[#FF4D2E] flex-shrink-0 mt-0.5" />
+            <div className="flex-1 text-sm font-bold">
+              <span>Notice: </span>
               {error}
             </div>
             <button
               type="button"
               onClick={() => setError(null)}
-              className="text-xs text-red-400 hover:text-red-200 cursor-pointer font-medium"
+              className="text-xs font-bold underline cursor-pointer"
             >
               Dismiss
             </button>
@@ -200,14 +199,14 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Image Upload & Controls */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5 space-y-6 shadow-xl backdrop-blur-xs">
+            <div className="rounded-2xl border-3 border-[#1A1A1A] bg-white p-5 space-y-6 shadow-[5px_6px_0_#1A1A1A]">
               {/* Step 1: Upload */}
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold border border-amber-500/30">
+                  <span className="w-6 h-6 rounded-full bg-[#FF4D2E] text-white flex items-center justify-center text-xs font-heading font-black border-2 border-[#1A1A1A] shadow-[1px_1px_0_#1A1A1A]">
                     1
                   </span>
-                  <h3 className="text-sm font-semibold text-zinc-200">
+                  <h3 className="font-heading font-extrabold text-base text-[#1A1A1A]">
                     Upload Photo
                   </h3>
                 </div>
@@ -220,12 +219,12 @@ export default function App() {
               </div>
 
               {/* Step 2: Choose Style */}
-              <div className="space-y-2 pt-2 border-t border-zinc-800/80">
+              <div className="space-y-2 pt-4 border-t-2 border-dashed border-[#1A1A1A]/30">
                 <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold border border-amber-500/30">
+                  <span className="w-6 h-6 rounded-full bg-[#FFD84D] text-[#1A1A1A] flex items-center justify-center text-xs font-heading font-black border-2 border-[#1A1A1A] shadow-[1px_1px_0_#1A1A1A]">
                     2
                   </span>
-                  <h3 className="text-sm font-semibold text-zinc-200">
+                  <h3 className="font-heading font-extrabold text-base text-[#1A1A1A]">
                     Select Caption Style
                   </h3>
                 </div>
@@ -236,61 +235,33 @@ export default function App() {
                 />
               </div>
 
-              {/* Meme Mode Quick Banner */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5 flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
-                    <span>Meme Mode</span>
-                    {memeMode && (
-                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold">
-                        ACTIVE
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-[11px] text-zinc-400">
-                    Generates bold Impact text overlay & PNG download
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setMemeMode(!memeMode)}
-                  className={`w-12 h-6 rounded-full transition-colors p-0.5 cursor-pointer flex items-center ${
-                    memeMode ? 'bg-amber-500 justify-end' : 'bg-zinc-800 justify-start'
-                  }`}
-                >
-                  <div className="w-5 h-5 rounded-full bg-white shadow-sm" />
-                </button>
-              </div>
-
               {/* Step 3: Generate Button */}
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={handleGenerateCaptions}
                   disabled={!image || isLoading}
-                  className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all shadow-lg cursor-pointer ${
-                    !image || isLoading
-                      ? 'bg-zinc-800 text-zinc-500 border border-zinc-700/50 cursor-not-allowed shadow-none'
-                      : 'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-zinc-950 shadow-amber-500/25 hover:shadow-amber-500/35 hover:scale-[1.01]'
+                  className={`w-full neo-btn py-4 px-6 rounded-full font-heading font-extrabold text-base tracking-wide flex items-center justify-center gap-2 cursor-pointer ${
+                    !image || isLoading ? 'opacity-50 cursor-not-allowed shadow-none transform-none' : ''
                   }`}
                 >
                   {isLoading ? (
                     <>
-                      <RefreshCw className="w-4 h-4 animate-spin text-zinc-950" />
+                      <RefreshCw className="w-5 h-5 animate-spin" />
                       <span>Analyzing & Crafting...</span>
                     </>
                   ) : (
                     <>
-                      <Wand2 className="w-4 h-4 text-zinc-950" />
+                      <Wand2 className="w-5 h-5" />
                       <span>
                         {memeMode ? 'Generate 5 Memes' : 'Generate 5 Captions'}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-zinc-950 ml-0.5" />
+                      <ArrowRight className="w-5 h-5 ml-1" />
                     </>
                   )}
                 </button>
                 {!image && (
-                  <p className="text-center text-[11px] text-zinc-500 mt-2">
+                  <p className="text-center text-xs font-bold text-[#1A1A1A]/60 mt-2">
                     Upload or select a photo above to enable generation
                   </p>
                 )}
@@ -315,13 +286,13 @@ export default function App() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-amber-400" />
-                    Generated Options
+                  <h3 className="font-heading font-extrabold text-lg text-[#1A1A1A] flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-[#FF4D2E]" />
+                    Generated Zine Options
                   </h3>
                   {captions.length > 0 && (
-                    <span className="text-xs text-zinc-400">
-                      ({captions.length} crafted for {selectedStyle})
+                    <span className="text-xs font-bold px-2 py-0.5 bg-[#C9B6FF] border border-[#1A1A1A] rounded shadow-[1px_1px_0_#1A1A1A]">
+                      {selectedStyle}
                     </span>
                   )}
                 </div>
@@ -330,10 +301,10 @@ export default function App() {
                   <button
                     type="button"
                     onClick={handleGenerateCaptions}
-                    className="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 cursor-pointer transition"
+                    className="stamp-btn text-xs font-bold px-3 py-1.5 rounded cursor-pointer flex items-center gap-1"
                   >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Regenerate all 5</span>
+                    <RefreshCw className="w-3.5 h-3.5 text-[#FF4D2E]" />
+                    <span>Reroll All 5</span>
                   </button>
                 )}
               </div>
@@ -343,7 +314,7 @@ export default function App() {
 
               {/* Ready Caption Cards */}
               {!isLoading && captions.length > 0 && (
-                <div className="grid grid-cols-1 gap-3.5">
+                <div className="grid grid-cols-1 gap-4">
                   {captions.map((caption, idx) => (
                     <CaptionCard
                       key={caption.id}
@@ -362,16 +333,15 @@ export default function App() {
 
               {/* Empty State */}
               {!isLoading && captions.length === 0 && (
-                <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/30 p-10 text-center flex flex-col items-center justify-center space-y-3 min-h-[300px]">
-                  <div className="w-12 h-12 rounded-2xl bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-zinc-500">
-                    <Wand2 className="w-6 h-6 text-amber-400/70" />
+                <div className="rounded-2xl border-3 border-[#1A1A1A] bg-white p-12 text-center flex flex-col items-center justify-center space-y-3 min-h-[320px] shadow-[4px_4px_0_#1A1A1A]">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FFD84D] border-2 border-[#1A1A1A] shadow-[3px_3px_0_#1A1A1A] flex items-center justify-center text-[#1A1A1A]">
+                    <Wand2 className="w-7 h-7 text-[#FF4D2E]" />
                   </div>
-                  <h4 className="text-base font-semibold text-zinc-200">
-                    No captions generated yet
+                  <h4 className="font-heading font-bold text-xl text-[#1A1A1A]">
+                    Your Scrapbook is Waiting
                   </h4>
-                  <p className="text-xs text-zinc-400 max-w-sm">
-                    Upload any photo and choose your desired tone to watch Gemini generate 5 sharp,
-                    context-aware captions and meme lines.
+                  <p className="text-sm font-medium text-[#1A1A1A]/70 max-w-sm">
+                    Upload a photo and select a style to generate 5 distinctive, context-aware zine captions and meme lines.
                   </p>
                 </div>
               )}
@@ -381,8 +351,8 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800/60 py-5 text-center text-xs text-zinc-500 mt-auto">
-        <p>CaptionCraft &bull; Intelligent photo captions and meme studio</p>
+      <footer className="border-t-3 border-[#1A1A1A] py-6 text-center text-xs font-bold text-[#1A1A1A]/70 mt-auto bg-white">
+        <p>CaptionCraft Zine Edition &bull; Scrapbook Photo Captions & Memes</p>
       </footer>
     </div>
   );
