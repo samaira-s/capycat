@@ -1,0 +1,6 @@
+{
+  "name": "CaptionCraft",
+  "description": "Smart, context-aware AI photo caption & meme generator with distinct styles and meme mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
